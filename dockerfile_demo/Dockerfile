@@ -12,9 +12,9 @@ ENV INIT=init.sh
 
 
 #授权
-RUN chmod -R 777 $JAVA_HOME/bin
-RUN chmod -R 777 $NACOS_BIN
-RUN chmod -R 777 $ZK_HOME/bin
+RUN chmod -R 777 $JAVA_HOME/bin/*
+RUN chmod -R 777 $NACOS_BIN/*
+RUN chmod -R 777 $ZK_HOME/bin/*
 
 
 #创建开机自启脚本
