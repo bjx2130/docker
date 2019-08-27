@@ -32,6 +32,7 @@ RUN update-rc.d nacos defaults 90
 
 
 #只能有一个 ENTRYPOINT 命令
+#如果不使用 bash 命令，启动容器后可能会出现 Exited (0) 
 ENTRYPOINT bash
 
 
