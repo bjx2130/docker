@@ -16,16 +16,8 @@ RUN chmod -R 777 $NACOS_BIN
 RUN chmod -R 777 $ZK_HOME/bin
 
 
-#创建开机自启脚本
-WORKDIR /etc/init.d/
-RUN echo "$ZK_HOME/bin/zkServer.sh start" >>zookeeper
-RUN echo "$NACOS_BIN/startup.sh -m standalone" >>nacos
-RUN chmod -R 777 zookeeper
-RUN chmod -R 777 nacos
-#设置服务开机自启
-RUN update-rc.d zookeeper defaults 90
-RUN update-rc.d nacos defaults 90
-
+#切换目录
+WORKDIR /opt
 
 #映射磁盘卷
 #VOLUME ~/dkImage/resource /opt
