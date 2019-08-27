@@ -8,6 +8,7 @@ ENV JAVA_HOME=/opt/jdk1.8.0_221
 ENV NACOS_BIN=/opt/nacos/bin
 ENV ZK_HOME=/opt/apache-zookeeper-3.5.5-bin
 ENV PATH=$PATH:$JAVA_HOME/bin
+ENV INIT=init.sh
 
 
 #授权
@@ -16,16 +17,21 @@ RUN chmod -R 777 $NACOS_BIN
 RUN chmod -R 777 $ZK_HOME/bin
 
 
-#切换目录
-WORKDIR /opt
+#创建开机自启脚本
+WORKDIR /etc/init.d/
+RUN echo "#!/bin/bash">>$INIT \
+    && echo "$NACOS_BIN/startup.sh -m standalone" >>$INIT \
+    && echo "$ZK_HOME/bin/zkServer.sh start" >>$INIT \
+    && echo "/bin/bash" >>$INIT
+RUN chmod -R 777 $INIT
+
 
 #映射磁盘卷
 #VOLUME ~/dkImage/resource /opt
 
 
 #只能有一个 ENTRYPOINT 命令
-#如果不使用 bash 命令，启动容器后可能会出现 Exited (0) 
-ENTRYPOINT bash
+ENTRYPOINT /etc/init.d/$INIT
 
 
 #构建镜像：docker build -t [ubuntu18]:[v2] .
