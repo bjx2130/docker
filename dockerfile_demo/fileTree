@@ -1,0 +1,5 @@
+├─dockerfile_demo
+│  └─resource
+│      ├─apache-zookeeper-3.5.5-bin
+│      ├─jdk1.8.0_221
+│      └─nacos
