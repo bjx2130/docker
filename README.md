@@ -1,6 +1,15 @@
 # docker
     dockerfile：
       https://www.jianshu.com/p/10ed530766af
+    
+    Docker三剑客之Docker Swarm
+	    https://www.jianshu.com/p/91fd1bdde7ac
+	    https://www.jianshu.com/p/101a577f6561
+    
+    Docker三剑客之Docker Machine
+        https://www.jianshu.com/p/de7a31afbaa9
+	
+      
 # docker私服搭建
        https://www.jianshu.com/p/98c9ae484435
 
