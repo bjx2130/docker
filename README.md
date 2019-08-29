@@ -1,7 +1,8 @@
 # docker
     dockerfile：
       https://www.jianshu.com/p/10ed530766af
-
+# docker私服搭建
+       https://www.jianshu.com/p/98c9ae484435
 
 # 常用命令
     $ docker build -t [镜像名称]:[镜像标签]    #构建镜像
