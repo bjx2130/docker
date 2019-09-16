@@ -23,6 +23,12 @@
 			docker service ps redis-stack_redis
 			docker service logs [服务名]
 
+排错步骤
+	1.docker service ps base_redis 查看ERROR 列错误信息
+	2. docker service logs base_redis 查看错误日志信息
+	
+
+
 
 
 其他命令：
