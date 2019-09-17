@@ -1,4 +1,5 @@
 version: '3'
+# https://docs.docker.com/samples/library/rabbitmq/
 services: 
     redis:
       image: redis
