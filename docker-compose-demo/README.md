@@ -1,8 +1,9 @@
 # docker 部署springcloud微服务
 	
-1.启动基础服务
+### 1.启动基础服务
 	docker-compose -f docker-base.yml up
-2.分别构建项目镜像
+
+### 2.分别构建项目镜像
 	
 
 	以spring-cloud-eureka为例
@@ -14,5 +15,6 @@
 		mvn dockerfile:push
 
 
-3.编写部署编排文件 docker-springcloud.yml
+
+### 3.编写部署编排文件 docker-springcloud.yml
 	启动docker-compose -f docker-springcloud.yml up
