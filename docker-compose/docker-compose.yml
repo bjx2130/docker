@@ -1,5 +1,18 @@
 version: '3'
 services: 
+  
+    #docker私有仓库 测试地址 http://你的虚拟机ip:5000/v2/
+    #              查看镜像 http://localhost:5000/v2/_catalog
+    #              查看镜像标签 http://localhost:5000/v2/[镜像名称]/tags/list
+    registry:
+        image: registry
+        restart: always
+        container_name: registry
+        ports:
+          - 5000:5000
+        #volumes:
+        #  - /usr/local/docker/registry/data:/var/lib/registry
+
     #缓存服务
     redis:
         image: redis
@@ -38,16 +51,6 @@ services:
 #         ports:
 #           - 1521:1521
 
-    
-    #docker私有仓库 测试地址 http://你的虚拟机ip:5000/v2/
-    registry:
-        image: registry
-        restart: always
-        container_name: registry
-        ports:
-          - 5000:5000
-        #volumes:
-        #  - /usr/local/docker/registry/data:/var/lib/registry
 
     #消息中间件   
     kafka:
