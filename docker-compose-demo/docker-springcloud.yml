@@ -1,0 +1,38 @@
+version: '3'
+services: 
+
+
+    eureka:
+        image: localhost:5000/eureka:0.0.1-SNAPSHOT
+        restart: always
+        container_name: eureka
+        environment:
+          eureka.instance.hostname: eureka
+          
+        ports:
+          - 8761:8761
+        #volumes:
+        #  - /usr/local/docker/registry/data:/var/lib/registry
+
+    spring-boot-monitor:
+        image: localhost:5000/spring-boot-monitor:0.0.1-SNAPSHOT
+        container_name: spring-boot-monitor
+        environment:
+          eureka.client.serviceUrl.defaultZone: http://eureka:8761/eureka/
+        ports:
+          - 7002:7002
+        depends_on: 
+          - eureka  
+        #volumes:
+        #  - /usr/local/docker/registry/data:/var/lib/registry
+
+    spring-cloud-service-1:
+        image: localhost:5000/spring-cloud-service-1:0.0.1-SNAPSHOT
+        container_name: spring-cloud-service-1
+        environment:
+          eureka.client.serviceUrl.defaultZone: http://eureka:8761/eureka/
+        ports:
+          - 9000:9000
+        depends_on: 
+          - eureka      
+
