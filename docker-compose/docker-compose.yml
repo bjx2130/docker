@@ -4,6 +4,9 @@ services:
     #docker私有仓库 测试地址 http://你的虚拟机ip:5000/v2/
     #              查看镜像 http://localhost:5000/v2/_catalog
     #              查看镜像标签 http://localhost:5000/v2/[镜像名称]/tags/list
+    #              镜像打标签：docker tag [image] localhost:5000/[image]:[tag]
+    #              推送镜像： docker push localhost:5000/[image]:[tag]
+    #    
     registry:
         image: registry
         restart: always
