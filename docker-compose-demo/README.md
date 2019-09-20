@@ -1,4 +1,4 @@
-# docker 部署springcloud微服务
+# docker 部署springcloud微服务[使用私有仓库]
 	
 ### 1.启动基础服务
 	docker-compose -f docker-base.yml up
