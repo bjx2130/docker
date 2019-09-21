@@ -1,12 +1,13 @@
 version: '3'
 services: 
-  
+
     #docker私有仓库 测试地址 http://你的虚拟机ip:5000/v2/
     #              查看镜像 http://localhost:5000/v2/_catalog
     #              查看镜像标签 http://localhost:5000/v2/[镜像名称]/tags/list
-    #              镜像打标签：docker tag [image] localhost:5000/[image]:[tag]
-    #              推送镜像： docker push localhost:5000/[image]:[tag]
-    #    
+    #              镜像打标签：docker tag zookeeper localhost:5000/zookeeper:latest2
+    #              推送镜像： docker push localhost:5000/zookeeper:latest2 
+    #              删除镜像： docker exec registry rm -rf /var/lib/registry/docker/registry/v2/repositories/[image] 
+    #
     registry:
         image: registry
         restart: always
@@ -68,6 +69,8 @@ services:
           #volumes:
           #  - ./kafka-logs:/kafka
           #  - /var/run/docker.sock:/var/run/docker.sock
+        depends_on:
+          - zookeeper  
 
     #kafka可视化WEB管理平台 http://localhost:9000/
     kafka-manager:
@@ -76,3 +79,23 @@ services:
             - 9000:9000
           environment:
             ZK_HOSTS: zookeeper:2181
+    
+    #分布式链路追踪
+    zipkin:
+      image: openzipkin/zipkin
+      container_name: zipkin
+      # Environment settings are defined here https://github.com/openzipkin/zipkin/blob/master/zipkin-server/README.md#environment-variables
+      environment:
+        - STORAGE_TYPE=mem
+        - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+        # Uncomment to disable scribe
+        # - SCRIBE_ENABLED=false
+        # Uncomment to enable self-tracing
+        # - SELF_TRACING_ENABLED=true
+        # Uncomment to enable debug logging
+        # - JAVA_OPTS=-Dlogging.level.zipkin=DEBUG
+      ports:
+        # Port used for the Zipkin UI and HTTP Api
+        - 9411:9411
+      depends_on:
+        - kafka
