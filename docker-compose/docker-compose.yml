@@ -42,6 +42,26 @@ services:
         restart: always
         environment:
           MYSQL_ROOT_PASSWORD: 111
+    
+    #
+    es:
+        image: elasticsearch:7.3.2
+        container_name: elasticsearch
+        environment:
+          - http.cors.enabled=true
+          - http.cors.allow-origin=*
+          - bootstrap.memory_lock=true
+          - transport.host=0.0.0.0
+          - transport.tcp.port=9300
+          - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+          - network.host=0.0.0.0
+          - node.name=es1
+#         volumes:
+#           - ./es:/opt/elasticsearch/data
+#           - ./elasticsearch.yml:/opt/elasticsearch/elasticsearch.yml
+        ports:
+          - 9200:9200
+
           
 #     oracle:
 #         # sid: xe
@@ -86,7 +106,8 @@ services:
       container_name: zipkin
       # Environment settings are defined here https://github.com/openzipkin/zipkin/blob/master/zipkin-server/README.md#environment-variables
       environment:
-        - STORAGE_TYPE=mem
+        - STORAGE_TYPE=elasticsearch
+        - ES_HOSTS=elasticsearch
         - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
         # Uncomment to disable scribe
         # - SCRIBE_ENABLED=false
@@ -99,3 +120,18 @@ services:
         - 9411:9411
       depends_on:
         - kafka
+        - es
+
+    dependencies:
+        image: openzipkin/zipkin-dependencies
+        container_name: dependencies
+        entrypoint: crond -f
+        environment:
+          - STORAGE_TYPE=elasticsearch
+          - ES_HOSTS=elasticsearch
+          # - ZIPKIN_LOG_LEVEL=DEBUG
+          # Uncomment to adjust memory used by the dependencies job
+          - JAVA_OPTS=-verbose:gc -Xms1G -Xmx1G
+        depends_on:
+          - es
+
