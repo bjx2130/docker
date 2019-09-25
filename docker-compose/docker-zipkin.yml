@@ -1,8 +1,7 @@
 version: '3'
 services: 
-    #部署是要和elassticsearch kafka 在同一个 docker network
-
-
+    
+    #部署是要和 elassticsearch kafka 在同一个 docker network
     #分布式链路追踪
     zipkin:
       image: openzipkin/zipkin
