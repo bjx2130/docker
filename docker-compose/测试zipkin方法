@@ -1,0 +1,6 @@
+kafka+zipkin+elassticsearch搭建成功后
+
+1.使用kafka生产端发送数据测试 kafka-console-producer.sh --bootstrap-server kafka:9092 --topic zipkin
+2.查看跟踪记录 http://zipkin:9411/zipkin/  
+
+[{"traceId":"a7f0060ed9773ff2","parentId":"a7f0060ed9773ff2","id":"5d3a3254ccdd71db","kind":"CLIENT","name":"post","timestamp":1569460844614204,"duration":1502876,"localEndpoint":{"serviceName":"spring-cloud-service-1","ipv4":"172.20.0.2"},"tags":{"error":"No instances available for spring-cloud-service-2","http.method":"POST","http.path":"/test"}},{"traceId":"a7f0060ed9773ff2","id":"a7f0060ed9773ff2","kind":"SERVER","name":"get /test","timestamp":1569460844370824,"duration":1893401,"localEndpoint":{"serviceName":"spring-cloud-service-1","ipv4":"172.20.0.2"},"remoteEndpoint":{"ipv4":"172.20.0.1","port":46462},"tags":{"error":"Request processing failed; nested exception is java.lang.IllegalStateException: No instances available for spring-cloud-service-2","http.method":"GET","http.path":"/test","mvc.controller.class":"TestController","mvc.controller.method":"test"}}]
