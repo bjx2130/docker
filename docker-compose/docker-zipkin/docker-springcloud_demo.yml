@@ -1,0 +1,74 @@
+version: '3'
+services: 
+
+    eureka:
+        image: java:8
+        container_name: eureka
+        volumes: 
+          - ./spring-cloud-sys-master/spring-cloud-eureka/target:/opt
+        environment:
+          eureka.instance.hostname: eureka
+          # 指定此实例的ip
+          eureka.instance.ip-address: 
+          # 注册时使用ip而不是主机名
+          eureka.instance.prefer-ip-address: 
+        ports:
+          - 8761:8761
+        #volumes:
+        command:
+          java -jar /opt/EurekaApplication-0.0.1-SNAPSHOT.jar
+        networks:
+          - zipkin_net         
+
+
+
+    spring-cloud-service-1:
+        image: java:8
+        container_name: spring-cloud-service-1
+        volumes: 
+          - ./spring-cloud-sys-master/spring-cloud-service-1/target:/opt
+        environment:
+          eureka.client.serviceUrl.defaultZone: http://eureka:8761/eureka/
+          spring.cloud.inetutils.ignored-interfaces:
+          spring.sleuth.sampler.probability: 1.0
+          spring.zipkin.service.name: spring-cloud-service-1
+          spring.zipkin.sender.type: kafka
+          spring.kafka.bootstrap-servers: kafka:9092
+          logging.level.org.springframework.cloud.sleuth.zipkin2: debug
+          logging.level.org.apache.kafka: debug
+          # spring.cloud.inetutils.ignored-interfaces: vEthernet.*
+        ports:
+          - 9000:9000
+        command:
+          java -jar /opt/spring-cloud-service-1-0.0.1-SNAPSHOT.jar
+        networks:
+          - zipkin_net           
+        depends_on: 
+          - eureka  
+
+    spring-cloud-service-2:
+        image: java:8
+        container_name: spring-cloud-service-2
+        volumes: 
+          - ./spring-cloud-sys-master/spring-cloud-service-2/target:/opt
+        environment:
+          eureka.client.serviceUrl.defaultZone: http://eureka:8761/eureka/
+          spring.cloud.inetutils.ignored-interfaces:
+          spring.sleuth.sampler.probability: 1.0
+          spring.zipkin.service.name: spring-cloud-service-2
+          spring.zipkin.sender.type: kafka
+          spring.kafka.bootstrap-servers: kafka:9092
+          logging.level.org.springframework.cloud.sleuth.zipkin2: debug
+          logging.level.org.apache.kafka: debug
+        ports:
+          - 8000:8000
+        command:
+          java -jar /opt/spring-cloud-service-2-0.0.1-SNAPSHOT.jar
+        networks:
+          - zipkin_net            
+        depends_on: 
+          - eureka    
+
+
+networks:
+  zipkin_net:          
