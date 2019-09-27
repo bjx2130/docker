@@ -11,8 +11,11 @@
 2、docker ps 查看服务是否全部启动
 
 3、访问地址
+	
 	eureka: http://localhost:8761/
+	
 	es: http://localhost:9200
+	
 	zipkin: http://localhost:9411/zipkin/
 
 
