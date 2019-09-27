@@ -1,5 +1,8 @@
 version: '3'
 
+#多个yml文件中的服务互相访问，需要使用自定义的网络才可以互相访问
+#参考 https://github.com/bjx2130/docker/tree/master/docker-compose/docker-zipkin
+
 services:
     #docker私有仓库 测试地址 http://你的虚拟机ip:5000/v2/
     #              查看镜像 http://localhost:5000/v2/_catalog
