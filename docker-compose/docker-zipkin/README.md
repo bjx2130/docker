@@ -20,4 +20,5 @@
 
 
 4、测试发送链路追踪数据，在zipkin中查看
+
 	http://localhost:9000/test
