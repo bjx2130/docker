@@ -32,8 +32,15 @@ services:
         ports:
           - 9200:9200
         networks:
-          - zipkin_net           
-
+          - zipkin_net
+          
+    kibana:
+      image: docker.elastic.co/kibana/kibana:6.3.2
+      ports:
+         - "5601:5601"
+      networks: 
+         - zipkin_net
+      
     kafka:
         image: 'bitnami/kafka:2'
         container_name: kafka
