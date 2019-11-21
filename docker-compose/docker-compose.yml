@@ -50,6 +50,7 @@ services:
     
     #查看所有索引：http://localhost:9200/_cat/indices?v
     #查看索引下数据：http://localhost:9200/[索引名称]/_search
+    # kibana版本要与elasticsearch 版本相同
     es:
         image: elasticsearch:7.3.2
         container_name: es
