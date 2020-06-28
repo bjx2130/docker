@@ -1,0 +1,42 @@
+version: '3'
+
+
+services:
+    
+    zookeeper:
+        image: 'wurstmeister/zookeeper'
+        container_name: zookeeper
+        ports:
+          - '2181:2181'
+          
+        environment:
+          - ALLOW_ANONYMOUS_LOGIN=yes
+          #- ZOO_ENABLE_AUTH=yes
+          #- ZOO_SERVER_USERS=kafka
+          #- ZOO_SERVER_PASSWORDS=kafka_password
+        networks:
+          - docker_net      
+    
+    
+    kafka:
+        image: 'wurstmeister/kafka'
+        container_name: kafka
+        ports:
+          - '9092:9092'
+          - '9094:9094'
+        environment:
+          - TZ=CST-8
+          - KAFKA_ZOOKEEPER_CONNECT=zookeeper
+          - KAFKA_ADVERTISED_LISTENERS=INSIDE://:9092,OUTSIDE://${宿主机IP地址}:9094
+          - KAFKA_LISTENERS=INSIDE://:9092,OUTSIDE://:9094
+          - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+          - KAFKA_INTER_BROKER_LISTENER_NAME=INSIDE
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock  
+        depends_on:
+          - zookeeper
+        networks:
+          - docker_net  
+
+networks:
+  docker_net:
